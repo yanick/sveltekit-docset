@@ -1,0 +1,966 @@
+<html><head><link rel="stylesheet" href="../Assets/prism.css"><link rel="stylesheet" href="../Assets/github-pandoc.css"></head><body><h1 id="svelte-kit">Svelte kit</h1>
+<h2 id="table-of-contents" data-dash-type="section" data-dash-name="Table of Contents">Table of Contents</h2>
+<ul>
+<li>
+<p><a href="#introduction">Introduction</a></p>
+<ul>
+<li><a href="#before-we-begin">Before we begin</a></li>
+<li><a href="#what-is-sveltekit">What is SvelteKit?</a></li>
+<li><a href="#getting-started">Getting started</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#routing">Routing</a></p>
+<ul>
+<li>
+<p><a href="#pages">Pages</a></p>
+</li>
+<li>
+<p><a href="#endpoints">Endpoints</a></p>
+</li>
+<li>
+<p><a href="#private-modules">Private modules</a></p>
+</li>
+<li>
+<p><a href="#advanced">Advanced</a></p>
+<ul>
+<li><a href="#rest-parameters">Rest parameters</a></li>
+<li><a href="#fallthrough-routes">Fallthrough routes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#layouts">Layouts</a></p>
+<ul>
+<li><a href="#nested-layouts">Nested layouts</a></li>
+<li><a href="#resets">Resets</a></li>
+<li><a href="#error-pages">Error pages</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#loading">Loading</a></p>
+<ul>
+<li>
+<p><a href="#input">Input</a></p>
+<ul>
+<li><a href="#page">page</a></li>
+<li><a href="#fetch">fetch</a></li>
+<li><a href="#session">session</a></li>
+<li><a href="#context">context</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#output">Output</a></p>
+<ul>
+<li><a href="#status">status</a></li>
+<li><a href="#error">error</a></li>
+<li><a href="#redirect">redirect</a></li>
+<li><a href="#maxage">maxage</a></li>
+<li><a href="#props">props</a></li>
+<li><a href="#context-1">context</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#hooks">Hooks</a></p>
+<ul>
+<li><a href="#handle">handle</a></li>
+<li><a href="#getsession">getSession</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#modules">Modules</a></p>
+<ul>
+<li><a href="#appenv">$app/env</a></li>
+<li><a href="#appnavigation">$app/navigation</a></li>
+<li><a href="#apppaths">$app/paths</a></li>
+<li><a href="#appstores">$app/stores</a></li>
+<li><a href="#lib">$lib</a></li>
+<li><a href="#service-worker">$service-worker</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#service-workers">Service workers</a></p>
+</li>
+<li>
+<p><a href="#anchor-options">Anchor options</a></p>
+<ul>
+<li><a href="#sveltekitprefetch">sveltekit:prefetch</a></li>
+<li><a href="#sveltekitnoscroll">sveltekit:noscroll</a></li>
+<li><a href="#relexternal">rel=external</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#events">Events</a></p>
+</li>
+<li>
+<p><a href="#amp">AMP</a></p>
+</li>
+<li>
+<p><a href="#adapters">Adapters</a></p>
+</li>
+<li>
+<p><a href="#ssr-and-javascript">SSR and JavaScript</a></p>
+<ul>
+<li>
+<p><a href="#ssr">ssr</a></p>
+</li>
+<li>
+<p><a href="#router">router</a></p>
+</li>
+<li>
+<p><a href="#hydrate">hydrate</a></p>
+</li>
+<li>
+<p><a href="#prerender">prerender</a></p>
+<ul>
+<li><a href="#when-not-to-prerender">When not to prerender</a></li>
+<li><a href="#route-conflicts">Route conflicts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#packaging">Packaging</a></p>
+<ul>
+<li><a href="#publishing">Publishing</a></li>
+<li><a href="#caveats">Caveats</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#command-line-interface">Command Line Interface</a></p>
+<ul>
+<li><a href="#svelte-kit-dev">svelte-kit dev</a></li>
+<li><a href="#svelte-kit-build">svelte-kit build</a></li>
+<li><a href="#svelte-kit-preview">svelte-kit preview</a></li>
+<li><a href="#svelte-kit-package">svelte-kit package</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#configuration">Configuration</a></p>
+<ul>
+<li><a href="#adapter">adapter</a></li>
+<li><a href="#amp-1">amp</a></li>
+<li><a href="#appdir">appDir</a></li>
+<li><a href="#files">files</a></li>
+<li><a href="#floc">floc</a></li>
+<li><a href="#host">host</a></li>
+<li><a href="#hostheader">hostHeader</a></li>
+<li><a href="#hydrate-1">hydrate</a></li>
+<li><a href="#paths">paths</a></li>
+<li><a href="#prerender-1">prerender</a></li>
+<li><a href="#router-1">router</a></li>
+<li><a href="#ssr-1">ssr</a></li>
+<li><a href="#target">target</a></li>
+<li><a href="#trailingslash">trailingSlash</a></li>
+<li><a href="#vite">vite</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#troubleshooting">Troubleshooting</a></p>
+<ul>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#support">Support</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#security">Security</a></p>
+<ul>
+<li><a href="#content-security-policy-csp">Content Security Policy (CSP)</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="introduction" data-dash-type="section" data-dash-name="Introduction">Introduction</h2>
+<h3 id="before-we-begin">Before we begin</h3>
+<blockquote>
+<p>SvelteKit is in early development, and some things may change before we hit version 1.0. This document is a work-in-progress. If you get stuck, reach out for help in the <a href="https://svelte.dev/chat">Discord chatroom</a>.</p>
+<p>See the <a href="/migrating">migration guides</a> for help upgrading from Sapper.</p>
+</blockquote>
+<h3 id="what-is-sveltekit">What is SvelteKit?</h3>
+<p>SvelteKit is a framework for building extremely high-performance web apps. You're looking at one right now! There are two basic concepts:</p>
+<ul>
+<li>Each page of your app is a <a href="https://svelte.dev">Svelte</a> component</li>
+<li>You create pages by adding files to the <code>src/routes</code> directory of your project. These will be server-rendered so that a user's first visit to your app is as fast as possible, then a client-side app takes over</li>
+</ul>
+<p>Building an app with all the modern best practices — code-splitting, offline support, server-rendered views with client-side hydration — is fiendishly complicated. SvelteKit does all the boring stuff for you so that you can get on with the creative part.</p>
+<p>You don't need to know Svelte to understand the rest of this guide, but it will help. In short, it's a UI framework that compiles your components to highly optimized vanilla JavaScript. Read the <a href="https://svelte.dev/blog/svelte-3-rethinking-reactivity">introductory blog post</a> and the <a href="https://svelte.dev/tutorial">tutorial</a> to learn more.</p>
+<h3 id="getting-started">Getting started</h3>
+<p>The easiest way to start building a SvelteKit app is to run <code>npm init</code>:</p>
+<div class="remark-highlight"><pre class="language-bash"><code class="language-bash"><span class="token function">npm</span> init svelte@next my-app
+<span class="token builtin class-name">cd</span> my-app
+<span class="token function">npm</span> <span class="token function">install</span>
+<span class="token function">npm</span> run dev
+</code></pre></div>
+<p>This will scaffold a new project in the <code>my-app</code> directory, install its dependencies, and start a server on <a href="http://localhost:3000">localhost:3000</a>. Try editing the files to get a feel for how everything works – you may not need to bother reading the rest of this guide!</p>
+<h2 id="routing" data-dash-type="section" data-dash-name="Routing">Routing</h2>
+<p>At the heart of SvelteKit is a <em>filesystem-based router</em>. This means that the structure of your application is defined by the structure of your codebase — specifically, the contents of <code>src/routes</code>.</p>
+<blockquote>
+<p>You can change this to a different directory by editing the <a href="#configuration">project config</a>.</p>
+</blockquote>
+<p>There are two types of route —&nbsp;<strong>pages</strong> and <strong>endpoints</strong>.</p>
+<p>Pages typically generate HTML to display to the user (as well as any CSS and JavaScript needed for the page). By default, pages are rendered on both the client and server, though this behaviour is configurable.</p>
+<p>Endpoints run only on the server (or when you build your site, if <a href="#ssr-and-javascript-prerender">prerendering</a>). This means it's the place to do things like access databases or APIs that require private credentials or return data that lives on a machine in your production network. Pages can request data from endpoints. Endpoints return JSON by default, though may also return data in other formats.</p>
+<h3 id="pages">Pages</h3>
+<p>Pages are Svelte components written in <code>.svelte</code> files (or any file with an extension listed in <a href="#configuration"><code>config.extensions</code></a>). By default, when a user first visits the application, they will be served a server-rendered version of the page in question, plus some JavaScript that 'hydrates' the page and initialises a client-side router. From that point forward, navigating to other pages is handled entirely on the client for a fast, app-like feel where the common portions in the layout do not need to be rerendered.</p>
+<p>The filename determines the route. For example, <code>src/routes/index.svelte</code> is the root of your site:</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- src/routes/index.svelte --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">svelte:</span>head</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Welcome<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">svelte:</span>head</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Hello and welcome to my site!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>A file called either <code>src/routes/about.svelte</code> or <code>src/routes/about/index.svelte</code> would correspond to the <code>/about</code> route:</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- src/routes/about.svelte --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">svelte:</span>head</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">svelte:</span>head</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>About this site<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>TODO...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>Dynamic parameters are encoded using <code>[brackets]</code>. For example, a blog post might be defined by <code>src/routes/blog/[slug].svelte</code>. Soon, we'll see how to access that parameter in a <a href="#loading">load function</a> or the <a href="#modules-$app-stores">page store</a>.</p>
+<p>A file or directory can have multiple dynamic parts, like <code>[id]-[category].svelte</code>. (Parameters are 'non-greedy'; in an ambiguous case like <code>x-y-z</code>, <code>id</code> would be <code>x</code> and <code>category</code> would be <code>y-z</code>.)</p>
+<h3 id="endpoints">Endpoints</h3>
+<p>Endpoints are modules written in <code>.js</code> (or <code>.ts</code>) files that export functions corresponding to HTTP methods. For example, our hypothetical blog page, <code>/blog/cool-article</code>, might request data from <code>/blog/cool-article.json</code>, which could be represented by a <code>src/routes/blog/[slug].json.js</code> endpoint:</p>
+<div class="remark-highlight"><pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">Headers</span> <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">string</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">Request<span class="token operator">&lt;</span>Locals <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">,</span> Body <span class="token operator">=</span> <span class="token builtin">unknown</span><span class="token operator">&gt;</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+	method<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+	host<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+	headers<span class="token operator">:</span> Headers<span class="token punctuation">;</span>
+	path<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+	params<span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">string</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+	query<span class="token operator">:</span> URLSearchParams<span class="token punctuation">;</span>
+	rawBody<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> Uint8Array<span class="token punctuation">;</span>
+	body<span class="token operator">:</span> ParameterizedBody<span class="token operator">&lt;</span>Body<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+	locals<span class="token operator">:</span> Locals<span class="token punctuation">;</span> <span class="token comment">// populated by hooks handle</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">EndpointOutput</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+	status<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+	headers<span class="token operator">?</span><span class="token operator">:</span> Headers<span class="token punctuation">;</span>
+	body<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> Uint8Array <span class="token operator">|</span> JSONValue<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">RequestHandler<span class="token operator">&lt;</span>Locals <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;&gt;</span></span> <span class="token operator">=</span> <span class="token punctuation">(</span>
+	request<span class="token operator">:</span> Request<span class="token operator">&lt;</span>Locals<span class="token operator">&gt;</span>
+<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">void</span> <span class="token operator">|</span> EndpointOutput <span class="token operator">|</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>EndpointOutput<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+</code></pre></div>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports">db</span> <span class="token keyword module">from</span> <span class="token string">'$lib/database'</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * <span class="token keyword">@type</span> <span class="token class-name"><span class="token punctuation">{</span><span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'@sveltejs/kit'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>RequestHandler<span class="token punctuation">}</span></span>
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> params <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// the `slug` parameter is available because this file</span>
+	<span class="token comment">// is called [slug].json.js</span>
+	<span class="token keyword">const</span> <span class="token punctuation">{</span> slug <span class="token punctuation">}</span> <span class="token operator">=</span> params<span class="token punctuation">;</span>
+
+	<span class="token keyword">const</span> article <span class="token operator">=</span> <span class="token keyword control-flow">await</span> db<span class="token punctuation">.</span><span class="token method function property-access">get</span><span class="token punctuation">(</span>slug<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>article<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+			body<span class="token operator">:</span> <span class="token punctuation">{</span>
+				article
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div>
+<blockquote>
+<p>All server-side code, including endpoints, has access to <code>fetch</code> in case you need to request data from external APIs.</p>
+</blockquote>
+<p>The job of this function is to return a <code>{ status, headers, body }</code> object representing the response, where <code>status</code> is an <a href="https://httpstatusdogs.com">HTTP status code</a>:</p>
+<ul>
+<li><code>2xx</code> — successful response (default is <code>200</code>)</li>
+<li><code>3xx</code> — redirection (should be accompanied by a <code>location</code> header)</li>
+<li><code>4xx</code> — client error</li>
+<li><code>5xx</code> — server error</li>
+</ul>
+<blockquote>
+<p>For successful responses, SvelteKit will generate 304s automatically.</p>
+</blockquote>
+<p>If the returned <code>body</code> is an object, and no <code>content-type</code> header is returned, it will automatically be turned into a JSON response. (Don't worry about <code>$lib</code>, we'll get to that <a href="#modules-$lib">later</a>.)</p>
+<blockquote>
+<p>Returning nothing is equivalent to an explicit 404 response.</p>
+</blockquote>
+<p>For endpoints that handle other HTTP methods, like POST, export the corresponding function:</p>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword">function</span> <span class="token function">post</span><span class="token punctuation">(</span><span class="token parameter">request</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token spread operator">...</span><span class="token punctuation">}</span>
+</code></pre></div>
+<p>Since <code>delete</code> is a reserved word in JavaScript, DELETE requests are handled with a <code>del</code> function.</p>
+<blockquote>
+<p>We don't interact with the <code>req</code>/<code>res</code> objects you might be familiar with from Node's <code>http</code> module or frameworks like Express, because they're only available on certain platforms. Instead, SvelteKit translates the returned object into whatever's required by the platform you're deploying your app to.</p>
+<p>The <code>body</code> property of the request object exists in the case of POST requests. If you're posting form data, it will be a read-only version of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData"><code>FormData</code></a> object.</p>
+</blockquote>
+<p>To set multiple cookies in a single set of response headers, you can return an array:</p>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+	headers<span class="token operator">:</span> <span class="token punctuation">{</span>
+		<span class="token string">'set-cookie'</span><span class="token operator">:</span> <span class="token punctuation">[</span>cookie1<span class="token punctuation">,</span> cookie2<span class="token punctuation">]</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div>
+<h3 id="private-modules">Private modules</h3>
+<p>A filename that has a segment with a leading underscore, such as <code>src/routes/foo/_Private.svelte</code> or <code>src/routes/bar/_utils/cool-util.js</code>, is hidden from the router, but can be imported by files that are not.</p>
+<h3 id="advanced">Advanced</h3>
+<h4 id="rest-parameters">Rest parameters</h4>
+<p>A route can have multiple dynamic parameters, for example <code>src/routes/[category]/[item].svelte</code> or even <code>src/routes/[category]-[item].svelte</code>. If the number of route segments is unknown, you can use rest syntax — for example you might implement GitHub's file viewer like so...</p>
+<div class="remark-highlight"><pre class="language-bash"><code class="language-bash">/<span class="token punctuation">[</span>org<span class="token punctuation">]</span>/<span class="token punctuation">[</span>repo<span class="token punctuation">]</span>/tree/<span class="token punctuation">[</span>branch<span class="token punctuation">]</span>/<span class="token punctuation">[</span><span class="token punctuation">..</span>.file<span class="token punctuation">]</span>
+</code></pre></div>
+<p>...in which case a request for <code>/sveltejs/kit/tree/master/documentation/docs/01-routing.md</code> would result in the following parameters being available to the page:</p>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token punctuation">{</span>
+	org<span class="token operator">:</span> <span class="token string">'sveltejs'</span><span class="token punctuation">,</span>
+	repo<span class="token operator">:</span> <span class="token string">'kit'</span><span class="token punctuation">,</span>
+	branch<span class="token operator">:</span> <span class="token string">'master'</span><span class="token punctuation">,</span>
+	file<span class="token operator">:</span> <span class="token string">'documentation/docs/01-routing.md'</span>
+<span class="token punctuation">}</span>
+</code></pre></div>
+<blockquote>
+<p><code>src/routes/a/[...rest]/z.svelte</code> will match <code>/a/z</code> as well as <code>/a/b/z</code> and <code>/a/b/c/z</code> and so on. Make sure you check that the value of the rest parameter is valid.</p>
+</blockquote>
+<h4 id="fallthrough-routes">Fallthrough routes</h4>
+<p>Finally, if you have multiple routes that match a given path, SvelteKit will try each of them until one responds. For example if you have these routes...</p>
+<div class="remark-highlight"><pre class="language-bash"><code class="language-bash">src/routes/<span class="token punctuation">[</span>baz<span class="token punctuation">]</span>.js
+src/routes/<span class="token punctuation">[</span>baz<span class="token punctuation">]</span>.svelte
+src/routes/<span class="token punctuation">[</span>qux<span class="token punctuation">]</span>.svelte
+src/routes/foo-<span class="token punctuation">[</span>bar<span class="token punctuation">]</span>.svelte
+</code></pre></div>
+<p>...and you navigate to <code>/foo-xyz</code>, then SvelteKit will first try <code>foo-[bar].svelte</code> because it is the best match, then will try <code>[baz].js</code> (which is also a valid match for <code>/foo-xyz</code>, but less specific), then <code>[baz].svelte</code> and <code>[qux].svelte</code> in alphabetical order (endpoints have higher precedence than pages). The first route that responds — a page that returns something from <a href="#loading"><code>load</code></a> or has no <code>load</code> function, or an endpoint that returns something — will handle the request.</p>
+<p>If no page or endpoint responds to a request, SvelteKit will respond with a generic 404.</p>
+<h2 id="layouts" data-dash-type="section" data-dash-name="Layouts">Layouts</h2>
+<p>So far, we've treated pages as entirely standalone components — upon navigation, the existing component will be destroyed, and a new one will take its place.</p>
+<p>But in many apps, there are elements that should be visible on <em>every</em> page, such as top-level navigation or a footer. Instead of repeating them in every page, we can use <em>layout</em> components.</p>
+<p>To create a layout component that applies to every page, make a file called <code>src/routes/__layout.svelte</code>. The default layout component (the one that SvelteKit uses if you don't bring your own) looks like this...</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slot</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slot</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>...but we can add whatever markup, styles and behaviour we want. The only requirement is that the component includes a <code>&lt;slot&gt;</code> for the page content. For example, let's add a nav bar:</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- src/routes/__layout.svelte --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>nav</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>.<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>about<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>settings<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Settings<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>nav</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slot</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slot</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>If we create pages for <code>/</code>, <code>/about</code> and <code>/settings</code>...</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- src/routes/index.svelte --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- src/routes/about.svelte --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- src/routes/settings.svelte --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Settings<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>...the nav will always be visible, and clicking between the three pages will only result in the <code>&lt;h1&gt;</code> being replaced.</p>
+<h3 id="nested-layouts">Nested layouts</h3>
+<p>Suppose we don't just have a single <code>/settings</code> page, but instead have nested pages like <code>/settings/profile</code> and <code>/settings/notifications</code> with a shared submenu (for a real-life example, see <a href="https://github.com/settings">github.com/settings</a>).</p>
+<p>We can create a layout that only applies to pages below <code>/settings</code> (while inheriting the root layout with the top-level nav):</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token comment">&lt;!-- src/routes/settings/__layout.svelte --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Settings<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>submenu<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/settings/profile<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Profile<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/settings/notifications<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Notifications<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slot</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slot</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<h3 id="resets">Resets</h3>
+<p>To reset the layout stack, create a <code>__layout.reset.svelte</code> file instead of a <code>__layout.svelte</code> file. For example, if you want your <code>/admin/*</code> pages to <em>not</em> inherit the root layout, create a file called <code>src/routes/admin/__layout.reset.svelte</code>.</p>
+<p>Layout resets are otherwise identical to normal layout components.</p>
+<h3 id="error-pages">Error pages</h3>
+<p>If a page fails to load (see <a href="#loading">Loading</a>), SvelteKit will render an error page. You can customise this page by creating <code>__error.svelte</code> components alongside your layout and page components.</p>
+<p>For example, if <code>src/routes/settings/notifications/index.svelte</code> failed to load, SvelteKit would render <code>src/routes/settings/notifications/__error.svelte</code> in the same layout, if it existed. If not, it would render <code>src/routes/settings/__error.svelte</code> in the parent layout, or <code>src/routes/__error.svelte</code> in the root layout.</p>
+<blockquote>
+<p>SvelteKit provides a default error page in case you don't supply <code>src/routes/__error.svelte</code>, but it's recommend that you bring your own.</p>
+</blockquote>
+<p>If an error component has a <a href="#loading"><code>load</code></a> function, it will be called with <code>error</code> and <code>status</code> properties:</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">context</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+	<span class="token keyword module">export</span> <span class="token keyword">function</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> error<span class="token punctuation">,</span> status <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+			props<span class="token operator">:</span> <span class="token punctuation">{</span>
+				title<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>status<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>error<span class="token punctuation">.</span><span class="token property-access">message</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+	<span class="token keyword module">export</span> <span class="token keyword">let</span> title<span class="token punctuation">;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>{title}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<blockquote>
+<p>Server-side stack traces will be removed from <code>error</code> in production, to avoid exposing privileged information to users.</p>
+</blockquote>
+<h2 id="loading" data-dash-type="section" data-dash-name="Loading">Loading</h2>
+<p>A component that defines a page or a layout can export a <code>load</code> function that runs before the component is created. This function runs both during server-side rendering and in the client, and allows you to get data for a page without (for example) showing a loading spinner and fetching data in <code>onMount</code>.</p>
+<p>Our example blog page might contain a <code>load</code> function like the following. Note the <code>context="module"</code> — this is necessary because <code>load</code> runs before the component is rendered:</p>
+<div class="remark-highlight"><pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">LoadInput</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+	page<span class="token operator">:</span> <span class="token punctuation">{</span>
+		host<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+		path<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+		params<span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">string</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+		query<span class="token operator">:</span> URLSearchParams<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token function-variable function">fetch</span><span class="token operator">:</span> <span class="token punctuation">(</span>info<span class="token operator">:</span> RequestInfo<span class="token punctuation">,</span> init<span class="token operator">?</span><span class="token operator">:</span> RequestInit<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Response<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+	session<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">;</span>
+	context<span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">LoadOutput</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+	status<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+	error<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> Error<span class="token punctuation">;</span>
+	redirect<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+	props<span class="token operator">?</span><span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+	context<span class="token operator">?</span><span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+	maxage<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">context</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+	<span class="token doc-comment comment">/**
+	 * <span class="token keyword">@type</span> <span class="token class-name"><span class="token punctuation">{</span><span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'@sveltejs/kit'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Load<span class="token punctuation">}</span></span>
+	 */</span>
+	<span class="token keyword module">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> page<span class="token punctuation">,</span> fetch<span class="token punctuation">,</span> session<span class="token punctuation">,</span> context <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">const</span> url <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">/blog/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>page<span class="token punctuation">.</span><span class="token property-access">params</span><span class="token punctuation">.</span><span class="token property-access">slug</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.json</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+		<span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+		<span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token property-access">ok</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+				props<span class="token operator">:</span> <span class="token punctuation">{</span>
+					article<span class="token operator">:</span> <span class="token keyword control-flow">await</span> res<span class="token punctuation">.</span><span class="token method function property-access">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+
+		<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+			status<span class="token operator">:</span> res<span class="token punctuation">.</span><span class="token property-access">status</span><span class="token punctuation">,</span>
+			error<span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Could not load </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+		<span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p><code>load</code> is similar to <code>getStaticProps</code> or <code>getServerSideProps</code> in Next.js, except that it runs on both the server and the client.</p>
+<p>If <code>load</code> returns nothing, SvelteKit will <a href="#routing-advanced-fallthrough-routes">fall through</a> to other routes until something responds, or will respond with a generic 404.</p>
+<blockquote>
+<p><code>load</code> only applies to components that define pages, not the components that they import.</p>
+<p>It is important to note that <code>load</code> may run on either the server or in the client browser. Code called inside <code>load</code> blocks:</p>
+<ul>
+<li>should use the SvelteKit-provided <a href="#loading-input-fetch"><code>fetch</code></a> method for getting data in order to avoid duplicate network requests</li>
+<li>should generally run on the same domain as any upstream API servers requiring credentials</li>
+<li>should not reference <code>window</code>, <code>document</code>, or any browser-specific objects</li>
+<li>should not reference any API keys or secrets directly, which will be exposed to the client, but instead call an endpoint using any required secrets</li>
+</ul>
+</blockquote>
+<h3 id="input">Input</h3>
+<p>The <code>load</code> function receives an object containing four fields — <code>page</code>, <code>fetch</code>, <code>session</code> and <code>context</code>.</p>
+<h4 id="page">page</h4>
+<p><code>page</code> is a <code>{ host, path, params, query }</code> object where <code>host</code> is the URL's host, <code>path</code> is its pathname, <code>params</code> is derived from <code>path</code> and the route filename, and <code>query</code> is an instance of <a href="https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams"><code>URLSearchParams</code></a>.</p>
+<p>So if the example above was <code>src/routes/blog/[slug].svelte</code> and the URL was <code>https://example.com/blog/some-post?foo=bar&amp;baz&amp;bizz=a&amp;bizz=b</code>, the following would be true:</p>
+<ul>
+<li><code>page.host === 'example.com'</code></li>
+<li><code>page.path === '/blog/some-post'</code></li>
+<li><code>page.params.slug === 'some-post'</code></li>
+<li><code>page.query.get('foo') === 'bar'</code></li>
+<li><code>page.query.has('baz')</code></li>
+<li><code>page.query.getAll('bizz') === ['a', 'b']</code></li>
+</ul>
+<h4 id="fetch">fetch</h4>
+<p><code>fetch</code> is equivalent to the native <code>fetch</code> web API, and can make credentialed requests. It can be used across both client and server contexts.</p>
+<blockquote>
+<p>When <code>fetch</code> runs on the server, the resulting response will be serialized and inlined into the rendered HTML. This allows the subsequent client-side <code>load</code> to access identical data immediately without an additional network request.</p>
+</blockquote>
+<h4 id="session">session</h4>
+<p><code>session</code> can be used to pass data from the server related to the current request, e.g. the current user. By default it is <code>undefined</code>. See <a href="#hooks-getsession"><code>getSession</code></a> to learn how to use it.</p>
+<h4 id="context">context</h4>
+<p><code>context</code> is passed from layout components to child layouts and page components. For the root <code>__layout.svelte</code> component, it is equal to <code>{}</code>, but if that component's <code>load</code> function returns an object with a <code>context</code> property, it will be available to subsequent <code>load</code> functions.</p>
+<h3 id="output">Output</h3>
+<p>If you return a Promise from <code>load</code>, SvelteKit will delay rendering until the promise resolves. The return value has several properties, all optional:</p>
+<h4 id="status">status</h4>
+<p>The HTTP status code for the page. If returning an <code>error</code> this must be a <code>4xx</code> or <code>5xx</code> response; if returning a <code>redirect</code> it must be a <code>3xx</code> response. The default is <code>200</code>.</p>
+<h4 id="error">error</h4>
+<p>If something goes wrong during <code>load</code>, return an <code>Error</code> object or a <code>string</code> describing the error alongside a <code>4xx</code> or <code>5xx</code> status code.</p>
+<h4 id="redirect">redirect</h4>
+<p>If the page should redirect (because the page is deprecated, or the user needs to be logged in, or whatever else) return a <code>string</code> containing the location to which they should be redirected alongside a <code>3xx</code> status code.</p>
+<h4 id="maxage">maxage</h4>
+<p>To cause pages to be cached, return a <code>number</code> describing the page's max age in seconds. The resulting cache header will include <code>private</code> if user data was involved in rendering the page (either via <code>session</code>, or because a credentialed <code>fetch</code> was made in a <code>load</code> function), but otherwise will include <code>public</code> so that it can be cached by CDNs.</p>
+<p>This only applies to page components, <em>not</em> layout components.</p>
+<h4 id="props">props</h4>
+<p>If the <code>load</code> function returns a <code>props</code> object, the props will be passed to the component when it is rendered.</p>
+<h4 id="context-1">context</h4>
+<p>This will be merged with any existing <code>context</code> and passed to the <code>load</code> functions of subsequent layout and page components.</p>
+<p>This only applies to layout components, <em>not</em> page components.</p>
+<h2 id="hooks" data-dash-type="section" data-dash-name="Hooks">Hooks</h2>
+<p>An optional <code>src/hooks.js</code> (or <code>src/hooks.ts</code>, or <code>src/hooks/index.js</code>) file exports two functions, both optional, that run on the server — <strong>handle</strong> and <strong>getSession</strong>.</p>
+<blockquote>
+<p>The location of this file can be <a href="#configuration">configured</a> as <code>config.kit.files.hooks</code></p>
+</blockquote>
+<h3 id="handle">handle</h3>
+<p>This function runs on every request, for both pages and endpoints, and determines the response. It receives the <code>request</code> object and a function called <code>resolve</code>, which invokes SvelteKit's router and generates a response accordingly. This allows you to modify response headers or bodies, or bypass SvelteKit entirely (for implementing endpoints programmatically, for example).</p>
+<p>If unimplemented, defaults to <code>({ request, resolve }) =&gt; resolve(request)</code>.</p>
+<p>To add custom data to the request, which is passed to endpoints, populate the <code>request.locals</code> object, as shown below.</p>
+<div class="remark-highlight"><pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">Headers</span> <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">string</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">Request<span class="token operator">&lt;</span>Locals <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;&gt;</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+	method<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+	host<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+	headers<span class="token operator">:</span> Headers<span class="token punctuation">;</span>
+	path<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+	params<span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">string</span><span class="token operator">&gt;</span><span class="token punctuation">;</span>
+	query<span class="token operator">:</span> URLSearchParams<span class="token punctuation">;</span>
+	rawBody<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> Uint8Array<span class="token punctuation">;</span>
+	body<span class="token operator">:</span> ParameterizedBody<span class="token operator">&lt;</span>Body<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+	locals<span class="token operator">:</span> Locals<span class="token punctuation">;</span> <span class="token comment">// populated by hooks handle</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">Response</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+	status<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+	headers<span class="token operator">:</span> Headers<span class="token punctuation">;</span>
+	body<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> Uint8Array<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">type</span> <span class="token class-name">Handle<span class="token operator">&lt;</span>Locals <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;&gt;</span></span> <span class="token operator">=</span> <span class="token punctuation">(</span>input<span class="token operator">:</span> <span class="token punctuation">{</span>
+	request<span class="token operator">:</span> Request<span class="token operator">&lt;</span>Locals<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+	<span class="token function-variable function">resolve</span><span class="token operator">:</span> <span class="token punctuation">(</span>request<span class="token operator">:</span> Request<span class="token operator">&lt;</span>Locals<span class="token operator">&gt;</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> Response <span class="token operator">|</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Response<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> Response <span class="token operator">|</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Response<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+</code></pre></div>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token doc-comment comment">/** <span class="token keyword">@type</span> <span class="token class-name"><span class="token punctuation">{</span><span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'@sveltejs/kit'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Handle<span class="token punctuation">}</span></span> */</span>
+<span class="token keyword module">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">handle</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> request<span class="token punctuation">,</span> resolve <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	request<span class="token punctuation">.</span><span class="token property-access">locals</span><span class="token punctuation">.</span><span class="token property-access">user</span> <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">getUserInformation</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token property-access">headers</span><span class="token punctuation">.</span><span class="token property-access">cookie</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">resolve</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+		<span class="token spread operator">...</span>response<span class="token punctuation">,</span>
+		headers<span class="token operator">:</span> <span class="token punctuation">{</span>
+			<span class="token spread operator">...</span>response<span class="token punctuation">.</span><span class="token property-access">headers</span><span class="token punctuation">,</span>
+			<span class="token string">'x-custom-header'</span><span class="token operator">:</span> <span class="token string">'potato'</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div>
+<h3 id="getsession">getSession</h3>
+<p>This function takes the <code>request</code> object and returns a <code>session</code> object that is <a href="#modules-$app-stores">accessible on the client</a> and therefore must be safe to expose to users. It runs whenever SvelteKit server-renders a page.</p>
+<p>If unimplemented, session is <code>{}</code>.</p>
+<div class="remark-highlight"><pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name">GetSession<span class="token operator">&lt;</span>Locals <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">,</span> Session <span class="token operator">=</span> <span class="token builtin">any</span><span class="token operator">&gt;</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+	<span class="token punctuation">(</span>request<span class="token operator">:</span> Request<span class="token operator">&lt;</span>Locals<span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator">:</span> Session <span class="token operator">|</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span>Session<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token doc-comment comment">/** <span class="token keyword">@type</span> <span class="token class-name"><span class="token punctuation">{</span><span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'@sveltejs/kit'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>GetSession<span class="token punctuation">}</span></span> */</span>
+<span class="token keyword module">export</span> <span class="token keyword">function</span> <span class="token function">getSession</span><span class="token punctuation">(</span><span class="token parameter">request</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+		user<span class="token operator">:</span> <span class="token punctuation">{</span>
+			<span class="token comment">// only include properties needed client-side —</span>
+			<span class="token comment">// exclude anything else attached to the user</span>
+			<span class="token comment">// like access tokens etc</span>
+			name<span class="token operator">:</span> request<span class="token punctuation">.</span><span class="token property-access">locals</span><span class="token punctuation">.</span><span class="token property-access">user</span><span class="token operator">?.</span>name<span class="token punctuation">,</span>
+			email<span class="token operator">:</span> request<span class="token punctuation">.</span><span class="token property-access">locals</span><span class="token punctuation">.</span><span class="token property-access">user</span><span class="token operator">?.</span>email<span class="token punctuation">,</span>
+			avatar<span class="token operator">:</span> request<span class="token punctuation">.</span><span class="token property-access">locals</span><span class="token punctuation">.</span><span class="token property-access">user</span><span class="token operator">?.</span>avatar
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div>
+<blockquote>
+<p><code>session</code> must be serializable, which means it must not contain things like functions or custom classes, just built-in JavaScript data types</p>
+</blockquote>
+<h2 id="modules" data-dash-type="section" data-dash-name="Modules">Modules</h2>
+<p>SvelteKit makes a number of modules available to your application.</p>
+<h3 id="appenv">$app/env</h3>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> amp<span class="token punctuation">,</span> browser<span class="token punctuation">,</span> dev<span class="token punctuation">,</span> prerendering <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'$app/env'</span><span class="token punctuation">;</span>
+</code></pre></div>
+<ul>
+<li><code>amp</code> is <code>true</code> or <code>false</code> depending on the corresponding value in your <a href="#configuration">project configuration</a></li>
+<li><code>browser</code> is <code>true</code> or <code>false</code> depending on whether the app is running in the browser or on the server</li>
+<li><code>dev</code> is <code>true</code> in development mode, <code>false</code> in production</li>
+<li><code>prerendering</code> is <code>true</code> when <a href="#ssr-and-javascript-prerender">prerendering</a>, <code>false</code> otherwise</li>
+</ul>
+<h3 id="appnavigation">$app/navigation</h3>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> goto<span class="token punctuation">,</span> invalidate<span class="token punctuation">,</span> prefetch<span class="token punctuation">,</span> prefetchRoutes <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'$app/navigation'</span><span class="token punctuation">;</span>
+</code></pre></div>
+<ul>
+<li><code>goto(href, { replaceState, noscroll, state })</code> returns a <code>Promise</code> that resolves when SvelteKit navigates (or fails to navigate, in which case the promise rejects) to the specified <code>href</code>. The second argument is optional. If <code>replaceState</code> is true, a new history entry won't be created. If <code>noscroll</code> is true, the browser won't scroll to the top of the page after navigation. If state is set, its value will be used to set the initital state of the new history entry, it defaults to <code>{}</code>.</li>
+<li><code>invalidate(href)</code> causes any <code>load</code> functions belonging to the currently active page to re-run if they <code>fetch</code> the resource in question. It returns a <code>Promise</code> that resolves when the page is subsequently updated.</li>
+<li><code>prefetch(href)</code> programmatically prefetches the given page, which means a) ensuring that the code for the page is loaded, and b) calling the page's <code>load</code> function with the appropriate options. This is the same behaviour that SvelteKit triggers when the user taps or mouses over an <code>&lt;a&gt;</code> element with <a href="#anchor-options-sveltekit-prefetch">sveltekit:prefetch</a>. If the next navigation is to <code>href</code>, the values returned from <code>load</code> will be used, making navigation instantaneous. Returns a <code>Promise</code> that resolves when the prefetch is complete.</li>
+<li><code>prefetchRoutes(routes)</code> — programmatically prefetches the code for routes that haven't yet been fetched. Typically, you might call this to speed up subsequent navigation. If no argument is given, all routes will be fetched; otherwise, you can specify routes by any matching pathname such as <code>/about</code> (to match <code>src/routes/about.svelte</code>) or <code>/blog/*</code> (to match <code>src/routes/blog/[slug].svelte</code>). Unlike <code>prefetch</code>, this won't call <code>load</code> for individual pages. Returns a <code>Promise</code> that resolves when the routes have been prefetched.</li>
+</ul>
+<h3 id="apppaths">$app/paths</h3>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> base<span class="token punctuation">,</span> assets <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'$app/paths'</span><span class="token punctuation">;</span>
+</code></pre></div>
+<ul>
+<li><code>base</code> — a root-relative (i.e. begins with a <code>/</code>) string that matches <code>config.kit.paths.base</code> in your <a href="#configuration">project configuration</a></li>
+<li><code>assets</code> — a root-relative or absolute path that matches <code>config.kit.paths.assets</code> (after it has been resolved against <code>base</code>)</li>
+</ul>
+<h3 id="appstores">$app/stores</h3>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> getStores<span class="token punctuation">,</span> navigating<span class="token punctuation">,</span> page<span class="token punctuation">,</span> session <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'$app/stores'</span><span class="token punctuation">;</span>
+</code></pre></div>
+<p>Stores are <em>contextual</em> — they are added to the <a href="https://svelte.dev/tutorial/context-api">context</a> of your root component. This means that <code>session</code> and <code>page</code> are unique to each request on the server, rather than shared between multiple requests handled by the same server simultaneously, which is what makes it safe to include user-specific data in <code>session</code>.</p>
+<p>Because of that, the stores are not free-floating objects: they must be accessed during component initialisation, like anything else that would be accessed with <code>getContext</code>.</p>
+<ul>
+<li><code>getStores</code> is a convenience function around <code>getContext</code> that returns <code>{ navigating, page, session }</code>. Most of the time, you won't need to use it.</li>
+</ul>
+<p>The stores themselves attach to the correct context at the point of subscription, which means you can import and use them directly in components without boilerplate.</p>
+<ul>
+<li><code>navigating</code> is a <a href="https://svelte.dev/tutorial/readable-stores">readable store</a>. When navigating starts, its value is <code>{ from, to }</code>, where <code>from</code> and <code>to</code> both mirror the <code>page</code> store value. When navigating finishes, its value reverts to <code>null</code>.</li>
+<li><code>page</code> is a readable store whose value reflects the object passed to <code>load</code> functions — it contains <code>host</code>, <code>path</code>, <code>params</code> and <code>query</code>. See the <a href="#loading-input-page"><code>page</code> section</a> above for more details.</li>
+<li><code>session</code> is a <a href="https://svelte.dev/tutorial/writable-stores">writable store</a> whose initial value is whatever was returned from <a href="#hooks-getsession"><code>getSession</code></a>. It can be written to, but this will <em>not</em> cause changes to persist on the server — this is something you must implement yourself.</li>
+</ul>
+<h3 id="lib">$lib</h3>
+<p>This is a simple alias to <code>src/lib</code>, or whatever directory is specified as [<code>config.kit.files.lib</code>]. It allows you to access common components and utility modules without <code>../../../../</code> nonsense.</p>
+<h3 id="service-worker">$service-worker</h3>
+<p>This module is only available to <a href="#service-workers">service workers</a>.</p>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> build<span class="token punctuation">,</span> files<span class="token punctuation">,</span> timestamp <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'$service-worker'</span><span class="token punctuation">;</span>
+</code></pre></div>
+<ul>
+<li><code>build</code> is an array of URL strings representing the files generated by Vite, suitable for caching with <code>cache.addAll(build)</code></li>
+<li><code>files</code> is an array of URL strings representing the files in your <code>static</code> directory, or whatever directory is specified by <a href="#configuration"><code>config.kit.files.assets</code></a></li>
+<li><code>timestamp</code> is the result of calling <code>Date.now()</code> at build time. It's useful for generating unique cache names inside your service worker, so that a later deployment of your app can invalidate old caches</li>
+</ul>
+<h2 id="service-workers" data-dash-type="section" data-dash-name="Service workers">Service workers</h2>
+<p>Service workers act as proxy servers that handle network requests inside your app. This makes it possible to make your app work offline, but even if you don't need offline support (or can't realistically implement it because of the type of app you're building), it's often worth using service workers to speed up navigation by precaching your built JS and CSS.</p>
+<p>In SvelteKit, if you have a <code>src/service-worker.js</code> file (or <code>src/service-worker.ts</code>, or <code>src/service-worker/index.js</code>, etc) it will be built with Vite and automatically registered.</p>
+<blockquote>
+<p>You can change the location of your service worker in your <a href="#configuration-files">project configuration</a>.</p>
+</blockquote>
+<p>Inside the service worker you have access to the <a href="#modules-$service-worker"><code>$service-worker</code> module</a>.</p>
+<p>Because it needs to be bundled (since browsers don't yet support <code>import</code> in this context), and depends on the client-side app's build manifest, <strong>service workers only work in the production build, not in development</strong>. To test it locally, use <a href="#command-line-interface-svelte-kit-preview"><code>svelte-kit preview</code></a>.</p>
+<h2 id="anchor-options" data-dash-type="section" data-dash-name="Anchor options">Anchor options</h2>
+<h3 id="sveltekitprefetch">sveltekit:prefetch</h3>
+<p>SvelteKit uses code splitting to break your app into small chunks (one per route), ensuring fast startup times.</p>
+<p>For <em>dynamic</em> routes, such as our <code>src/routes/blog/[slug].svelte</code> example, that's not enough. In order to render the blog post, we need to fetch the data for it, and we can't do that until we know what <code>slug</code> is. In the worst case, that could cause lag as the browser waits for the data to come back from the server.</p>
+<p>We can mitigate that by <em>prefetching</em> the data. Adding a <code>sveltekit:prefetch</code> attribute to a link...</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name"><span class="token namespace">sveltekit:</span>prefetch</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>blog/what-is-sveltekit<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>What is SvelteKit?<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>...will cause SvelteKit to run the page's <code>load</code> function as soon as the user hovers over the link (on a desktop) or touches it (on mobile), rather than waiting for the <code>click</code> event to trigger navigation. Typically, this buys us an extra couple of hundred milliseconds, which is the difference between a user interface that feels laggy, and one that feels snappy.</p>
+<p>Note that prefetching will not work if the <a href="#ssr-and-javascript-router"><code>router</code></a> setting is <code>false</code>.</p>
+<p>You can also programmatically invoke <code>prefetch</code> from <code>$app/navigation</code>.</p>
+<h3 id="sveltekitnoscroll">sveltekit:noscroll</h3>
+<p>When navigating to internal links, SvelteKit mirrors the browser's default navigation behaviour: it will change the scroll position to 0,0 so that the user is at the very top left of the page (unless the link includes a <code>#hash</code>, in which case it will scroll to the element with a matching ID).</p>
+<p>In certain cases, you may wish to disable this behaviour. Adding a <code>sveltekit:noscroll</code> attribute to a link...</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>path<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">sveltekit:</span>noscroll</span><span class="token punctuation">&gt;</span></span>Path<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>...will prevent scrolling after the link is clicked.</p>
+<h3 id="relexternal">rel=external</h3>
+<p>By default, the SvelteKit runtime intercepts clicks on <code>&lt;a&gt;</code> elements and bypasses the normal browser navigation for relative (same-origin) URLs that match one of your page routes. We sometimes need to tell SvelteKit that certain links need to be handled by normal browser navigation.</p>
+<p>Adding a <code>rel=external</code> attribute to a link...</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>external<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>path<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Path<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>...will trigger a browser navigation when the link is clicked.</p>
+<h2 id="events" data-dash-type="section" data-dash-name="Events">Events</h2>
+<p>SvelteKit emits <a href="https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent">CustomEvents</a> on the <code>window</code> object when certain things happen:</p>
+<ul>
+<li><code>sveltekit:start</code> — fired once the app has hydrated</li>
+<li><code>sveltekit:navigation-start</code> — navigation has started</li>
+<li><code>sveltekit:navigation-end</code> —&nbsp;navigation has ended</li>
+</ul>
+<p>You probably won't need to use these, but they can be useful in the context of (for example) integration tests.</p>
+<h2 id="amp" data-dash-type="section" data-dash-name="AMP">AMP</h2>
+<p>An unfortunate reality of modern web development is that it is sometimes necessary to create an <a href="https://amp.dev/">AMP</a> version of your site. In SvelteKit this can be done by setting the <a href="#configuration-amp"><code>amp</code></a> config option, which has the following effects:</p>
+<ul>
+<li>Client-side JavaScript, including the router, is disabled</li>
+<li>Styles are concatenated into <code>&lt;style amp-custom&gt;</code>, and the <a href="https://amp.dev/boilerplate/">AMP boilerplate</a> is injected</li>
+<li>In development, requests are checked against the <a href="https://validator.ampproject.org/">AMP validator</a> so you get early warning of any errors</li>
+</ul>
+<h2 id="adapters" data-dash-type="section" data-dash-name="Adapters">Adapters</h2>
+<p>Before you can deploy your SvelteKit app, you need to <em>adapt</em> it for your deployment target. Adapters are small plugins that take the built app as input and generate output for deployment. Many adapters are optimised for a specific hosting provider, and you can generally find information about deployment in your adapter's documentation. However, some adapters, like <code>adapter-static</code>, build output that can be hosted on numerous hosting providers, so it may also be helpful to reference the documentation of your hosting provider in these cases.</p>
+<p>For example, if you want to run your app as a simple Node server, you would use the <code>@sveltejs/adapter-node</code> package:</p>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token comment">// svelte.config.js</span>
+<span class="token keyword module">import</span> <span class="token imports">node</span> <span class="token keyword module">from</span> <span class="token string">'@sveltejs/adapter-node'</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+	kit<span class="token operator">:</span> <span class="token punctuation">{</span>
+		adapter<span class="token operator">:</span> <span class="token function">node</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div>
+<p>With this, <a href="#command-line-interface-svelte-kit-build">svelte-kit build</a> will generate a self-contained Node app inside <code>build</code>. You can pass options to adapters, such as customising the output directory in <code>adapter-node</code>:</p>
+<div class="remark-highlight"><pre class="language-diff"><code class="language-diff">// svelte.config.js
+import node from '@sveltejs/adapter-node';
+
+export default {
+	kit: {
+<span class="token deleted-sign deleted"><span class="token prefix deleted">-</span><span class="token line">		adapter: node()</span>
+<span class="token line"></span></span><span class="token inserted-sign inserted"><span class="token prefix inserted">+</span><span class="token line">		adapter: node({ out: 'my-output-directory' })</span>
+<span class="token line"></span></span>	}
+};
+</code></pre></div>
+<p>A variety of official adapters exist for serverless platforms...</p>
+<ul>
+<li><a href="https://github.com/sveltejs/kit/tree/master/packages/adapter-begin"><code>adapter-begin</code></a> — for <a href="https://begin.com">Begin</a></li>
+<li><a href="https://github.com/sveltejs/kit/tree/master/packages/adapter-cloudflare-workers"><code>adapter-cloudflare-workers</code></a> — for <a href="https://developers.cloudflare.com/workers/">Cloudflare Workers</a></li>
+<li><a href="https://github.com/sveltejs/kit/tree/master/packages/adapter-netlify"><code>adapter-netlify</code></a> — for <a href="https://netlify.com">Netlify</a></li>
+<li><a href="https://github.com/sveltejs/kit/tree/master/packages/adapter-vercel"><code>adapter-vercel</code></a> — for <a href="https://vercel.com">Vercel</a></li>
+</ul>
+<p>...and others:</p>
+<ul>
+<li><a href="https://github.com/sveltejs/kit/tree/master/packages/adapter-node"><code>adapter-node</code></a> — for creating self-contained Node apps</li>
+<li><a href="https://github.com/sveltejs/kit/tree/master/packages/adapter-static"><code>adapter-static</code></a> — for prerendering your entire site as a collection of static files</li>
+</ul>
+<blockquote>
+<p>The adapter API is still in flux and will likely change before 1.0.</p>
+</blockquote>
+<h2 id="ssr-and-javascript" data-dash-type="section" data-dash-name="SSR and JavaScript">SSR and JavaScript</h2>
+<p>By default, SvelteKit will render any component first on the server and send it to the client as HTML. It will then render the component again in the browser to make it interactive in a process called <strong>hydration</strong>. For this reason, you need to ensure that components can run in both places. SvelteKit will then initialise a <a href="#routing"><strong>router</strong></a> that takes over subsequent navigations.</p>
+<p>You can control each of these on a per-app or per-page basis. Note that each of the per-page settings use <a href="https://svelte.dev/docs#script_context_module"><code>context="module"</code></a>, and only apply to page components, <em>not</em> <a href="#layouts">layout</a> components.</p>
+<p>If both are specified, per-page settings override per-app settings in case of conflicts. Each setting can be controlled independently, but <code>ssr</code> and <code>hydrate</code> cannot both be <code>false</code> since that would result in nothing being rendered at all.</p>
+<h3 id="ssr">ssr</h3>
+<p>Disabling server-side rendering effectively turns your SvelteKit app into a <strong>single-page app</strong> or SPA.</p>
+<blockquote>
+<p>In most situations this is not recommended: it harms SEO, tends to slow down perceived performance, and makes your app inaccessible to users if JavaScript fails or is disabled (which happens <a href="https://kryogenix.org/code/browser/everyonehasjs.html">more often than you probably think</a>). Sometimes it's appropriate or even necessary, but consider alternatives before disabling SSR.</p>
+</blockquote>
+<p>You can disable SSR app-wide with the <a href="#configuration-ssr"><code>ssr</code> config option</a>, or a page-level <code>ssr</code> export:</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">context</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+	<span class="token keyword module">export</span> <span class="token keyword">const</span> ssr <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<h3 id="router">router</h3>
+<p>SvelteKit includes a client-side router that intercepts navigations (from the user clicking on links, or interacting with the back/forward buttons) and updates the page contents, rather than letting the browser handle the navigation by reloading.</p>
+<p>In certain circumstances you might need to disable this behaviour with the app-wide <a href="#configuration-router"><code>router</code> config option</a> or the page-level <code>router</code> export:</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">context</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+	<span class="token keyword module">export</span> <span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>Note that this will disable client-side routing for any navigation from this page, regardless of whether the router is already active.</p>
+<h3 id="hydrate">hydrate</h3>
+<p>Ordinarily, SvelteKit 'hydrates' your server-rendered HTML into an interactive page. Some pages don't require JavaScript at all — many blog posts and 'about' pages fall into this category. In these cases you can skip hydration when the app boots up with the app-wide <a href="#configuration-hydrate"><code>hydrate</code> config option</a> or the page-level <code>hydrate</code> export:</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">context</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+	<span class="token keyword module">export</span> <span class="token keyword">const</span> hydrate <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<blockquote>
+<p>If <code>hydrate</code> and <code>router</code> are both <code>false</code>, SvelteKit will not add any JavaScript to the page at all.</p>
+</blockquote>
+<h3 id="prerender">prerender</h3>
+<p>It's likely that at least some pages of your app can be represented as a simple HTML file, since they contain no dynamic or user-specific data. These pages can be <em>prerendered</em> by your <a href="#adapters">adapter</a>.</p>
+<p>If your entire app is suitable for prerendering, you could use <a href="https://github.com/sveltejs/kit/tree/master/packages/adapter-static"><code>adapter-static</code></a>, which will generate HTML files for every page, plus additional files that are requested by <code>load</code> functions in those pages.</p>
+<p>In many cases, you'll only want to prerender specific pages in your app. You'll need to annotate these pages:</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">context</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+	<span class="token keyword module">export</span> <span class="token keyword">const</span> prerender <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+<p>The prerenderer will start at the root of your app and generate HTML for any prerenderable pages it finds. Each page is scanned for <code>&lt;a&gt;</code> elements that point to other pages that are candidates for prerendering — because of this, you generally don't need to specify which pages should be accessed. If you <em>do</em> need to specify which pages should be accessed by the prerenderer, you can do so with the <code>pages</code> option in the <a href="#configuration-prerender">prerender configuration</a>.</p>
+<h4 id="when-not-to-prerender">When not to prerender</h4>
+<p>The basic rule is this: for a page to be prerenderable, any two users hitting it directly must get the same content from the server.</p>
+<blockquote>
+<p>In other words, any app that involves user sessions or authentication is <em>not</em> a candidate for <code>adapter-static</code>, even if individual pages within an app <em>are</em> suitable for prerendering.</p>
+</blockquote>
+<p>Note that you can still prerender pages that load data based on the page's parameters, like our <code>src/routes/blog/[slug].svelte</code> example from earlier. The prerenderer will intercept requests made inside <code>load</code>, so the data served from <code>src/routes/blog/[slug].json.js</code> will also be captured.</p>
+<h4 id="route-conflicts">Route conflicts</h4>
+<p>Because prerendering writes to the filesystem, it isn't possible to have two endpoints that would cause a directory and a file to have the same name. For example, <code>src/routes/foo/index.js</code> and <code>src/routes/foo/bar.js</code> would try to create <code>foo</code> and <code>foo/bar</code>, which is impossible.</p>
+<p>For that reason among others, it's recommended that you always include a file extension — <code>src/routes/foo/index.json.js</code> and <code>src/routes/foo/bar.json.js</code> would result in <code>foo.json</code> and <code>foo/bar.json</code> files living harmoniously side-by-side.</p>
+<p>For <em>pages</em>, we skirt around this problem by writing <code>foo/index.html</code> instead of <code>foo</code>.</p>
+<h2 id="packaging" data-dash-type="section" data-dash-name="Packaging">Packaging</h2>
+<p>You can use SvelteKit to build component libraries as well as apps.</p>
+<p>When you're creating an app, the contents of <code>src/routes</code> is the public-facing stuff; <a href="#modules-lib"><code>src/lib</code></a> contains your app's internal library.</p>
+<p>A SvelteKit component library has the exact same structure as a SvelteKit app, except that <code>src/lib</code> is the public-facing bit. <code>src/routes</code> might be a documentation or demo site that accompanies the library, or it might just be a sandbox you use during development.</p>
+<p>Running <code>svelte-kit package</code> will take the contents of <code>src/lib</code> and generate a <code>package</code> directory (which can be <a href="#configuration-package">configured</a>) containing the following:</p>
+<ul>
+<li>All the files in <code>src/lib</code>, unless you <a href="#configuration-package">configure</a> custom <code>include</code>/<code>exclude</code> options. Svelte components will be preprocessed (but note the <a href="#packaging-caveats">caveats</a> below)</li>
+<li>A <code>package.json</code> that copies the <code>name</code>, <code>version</code>, <code>description</code>, <code>keywords</code>, <code>homepage</code>, <code>bugs</code>, <code>license</code>, <code>author</code>, <code>contributors</code>, <code>funding</code>, <code>repository</code>, <code>dependencies</code>, <code>private</code> and <code>publishConfig</code> fields from the root of the project, and adds a <code>"type": "module"</code> and an <code>"exports"</code> field</li>
+</ul>
+<p>The <code>"exports"</code> field contains the package's entry points. By default, all files in <code>src/lib</code> will be treated as an entry point unless they start with (or live in a directory that starts with) an underscore, but you can <a href="#configuration-package">configure</a> this behaviour. If you have a <code>src/lib/index.js</code> or <code>src/lib/index.svelte</code> file, it will be treated as the package root.</p>
+<p>For example, if you had a <code>src/lib/Foo.svelte</code> component and a <code>src/lib/index.js</code> module that re-exported it, a consumer of your library could do either of the following:</p>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> <span class="token maybe-class-name">Foo</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'your-library'</span><span class="token punctuation">;</span>
+</code></pre></div>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">Foo</span></span> <span class="token keyword module">from</span> <span class="token string">'your-library/Foo.svelte'</span><span class="token punctuation">;</span>
+</code></pre></div>
+<h3 id="publishing">Publishing</h3>
+<p>To publish the generated package:</p>
+<div class="remark-highlight"><pre class="language-unknown"><code class="language-unknown">npm publish package</code></pre></div>
+<p>The <code>package</code> above is referring to the directory name generated, change accordingly if you configure a custom <a href="#configuration-package"><code>package.dir</code></a>. If you're having problems publishing a package that is not yours, add a trailing slash at the end (e.g. <code>package/</code>).</p>
+<h3 id="caveats">Caveats</h3>
+<p>This is a relatively experimental feature and is not yet fully implemented:</p>
+<ul>
+<li>if a preprocessor is specified, <code>.svelte</code> files are transformed (meaning they can contain TypeScript, for example), but <code>.d.ts</code> files are not generated</li>
+<li><code>.ts</code> files are not currently transformed, and will cause the process to fail</li>
+<li>all other files are copied across as-is</li>
+</ul>
+<h2 id="command-line-interface" data-dash-type="section" data-dash-name="Command Line Interface">Command Line Interface</h2>
+<p>SvelteKit includes a command line interface for building and running your app.</p>
+<p>In the default project template <code>svelte-kit dev</code>, <code>svelte-kit build</code> and <code>svelte-kit preview</code> are aliased as <code>npm run dev</code>, <code>npm run build</code> and <code>npm run preview</code> respectively. You can also invoke the CLI with <a href="https://www.npmjs.com/package/npx">npx</a>:</p>
+<div class="remark-highlight"><pre class="language-bash"><code class="language-bash">npx svelte-kit dev
+</code></pre></div>
+<h3 id="svelte-kit-dev">svelte-kit dev</h3>
+<p>Starts a development server. It accepts the following options:</p>
+<ul>
+<li><code>-p</code>/<code>--port</code> — which port to start the server on</li>
+<li><code>-o</code>/<code>--open</code> — open a browser tab once the server starts</li>
+<li><code>-h</code>/<code>--host</code> — expose the server to the network. This will allow people using the same coffee shop WiFi as you to see files on your computer due to an <a href="https://github.com/vitejs/vite/issues/2820">issue in Vite</a>; use it with care</li>
+<li><code>-H</code>/<code>--https</code> — launch an HTTPS server using a self-signed certificate. Useful for testing HTTPS-only features on an external device</li>
+</ul>
+<h3 id="svelte-kit-build">svelte-kit build</h3>
+<p>Builds a production version of your app, and runs your adapter if you have one specified in your <a href="#configuration">config</a>. It accepts the following option:</p>
+<ul>
+<li><code>--verbose</code> — log more detail</li>
+</ul>
+<p>After building the app, you can reference the documentation of your chosen <a href="#adapters">adapter</a> and hosting platform for specific instructions on how to serve your app.</p>
+<h3 id="svelte-kit-preview">svelte-kit preview</h3>
+<p>After you've built your app with <code>svelte-kit build</code>, you can start the production version (irrespective of any adapter that has been applied) locally with <code>svelte-kit preview</code>. This is intended for testing the production build locally, <strong>not for serving your app</strong>, for which you should always use an <a href="#adapters">adapter</a>.</p>
+<p>Like <code>svelte-kit dev</code>, it accepts the following options:</p>
+<ul>
+<li><code>-p</code>/<code>--port</code></li>
+<li><code>-o</code>/<code>--open</code></li>
+<li><code>-h</code>/<code>--host</code> (note the security caveat <a href="#command-line-interface-svelte-kit-dev">above</a>)</li>
+<li><code>-H</code>/<code>--https</code></li>
+</ul>
+<h3 id="svelte-kit-package">svelte-kit package</h3>
+<p>For package authors, see <a href="#packaging">packaging</a>.</p>
+<h2 id="configuration" data-dash-type="section" data-dash-name="Configuration">Configuration</h2>
+<p>Your project's configuration lives in a <code>svelte.config.js</code> file. All values are optional. The complete list of options, with defaults, is shown here:</p>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token doc-comment comment">/** <span class="token keyword">@type</span> <span class="token class-name"><span class="token punctuation">{</span><span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'@sveltejs/kit'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Config<span class="token punctuation">}</span></span> */</span>
+<span class="token keyword">const</span> config <span class="token operator">=</span> <span class="token punctuation">{</span>
+	<span class="token comment">// options passed to svelte.compile (https://svelte.dev/docs#svelte_compile)</span>
+	compilerOptions<span class="token operator">:</span> <span class="token keyword null nil">null</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// an array of file extensions that should be treated as Svelte components</span>
+	extensions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'.svelte'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+	kit<span class="token operator">:</span> <span class="token punctuation">{</span>
+		adapter<span class="token operator">:</span> <span class="token keyword null nil">null</span><span class="token punctuation">,</span>
+		amp<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+		appDir<span class="token operator">:</span> <span class="token string">'_app'</span><span class="token punctuation">,</span>
+		files<span class="token operator">:</span> <span class="token punctuation">{</span>
+			assets<span class="token operator">:</span> <span class="token string">'static'</span><span class="token punctuation">,</span>
+			hooks<span class="token operator">:</span> <span class="token string">'src/hooks'</span><span class="token punctuation">,</span>
+			lib<span class="token operator">:</span> <span class="token string">'src/lib'</span><span class="token punctuation">,</span>
+			routes<span class="token operator">:</span> <span class="token string">'src/routes'</span><span class="token punctuation">,</span>
+			serviceWorker<span class="token operator">:</span> <span class="token string">'src/service-worker'</span><span class="token punctuation">,</span>
+			template<span class="token operator">:</span> <span class="token string">'src/app.html'</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+		floc<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+		host<span class="token operator">:</span> <span class="token keyword null nil">null</span><span class="token punctuation">,</span>
+		hostHeader<span class="token operator">:</span> <span class="token keyword null nil">null</span><span class="token punctuation">,</span>
+		hydrate<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+		paths<span class="token operator">:</span> <span class="token punctuation">{</span>
+			assets<span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+			base<span class="token operator">:</span> <span class="token string">''</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+		prerender<span class="token operator">:</span> <span class="token punctuation">{</span>
+			crawl<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+			enabled<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+			force<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+			pages<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'*'</span><span class="token punctuation">]</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+		router<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+		ssr<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+		target<span class="token operator">:</span> <span class="token keyword null nil">null</span><span class="token punctuation">,</span>
+		trailingSlash<span class="token operator">:</span> <span class="token string">'never'</span><span class="token punctuation">,</span>
+		<span class="token function-variable function">vite</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// options passed to svelte.preprocess (https://svelte.dev/docs#svelte_preprocess)</span>
+	preprocess<span class="token operator">:</span> <span class="token keyword null nil">null</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> config<span class="token punctuation">;</span>
+</code></pre></div>
+<h3 id="adapter">adapter</h3>
+<p>Determines how the output of <code>svelte-kit build</code> is converted for different platforms. See <a href="#adapters">Adapters</a>.</p>
+<h3 id="amp-1">amp</h3>
+<p>Enable <a href="#amp">AMP</a> mode.</p>
+<h3 id="appdir">appDir</h3>
+<p>The directory relative to <code>paths.assets</code> where the built JS and CSS (and imported assets) are served from. (The filenames therein contain content-based hashes, meaning they can be cached indefinitely).</p>
+<h3 id="files">files</h3>
+<p>An object containing zero or more of the following <code>string</code> values:</p>
+<ul>
+<li><code>assets</code> — a place to put static files that should have stable URLs and undergo no processing, such as <code>favicon.ico</code> or <code>manifest.json</code></li>
+<li><code>lib</code> — your app's internal library, accessible throughout the codebase as <code>$lib</code></li>
+<li><code>routes</code> — the files that define the structure of your app (see <a href="#routing">Routing</a>)</li>
+<li><code>serviceWorker</code> — the location of your service worker's entry point (see <a href="#service-workers">Service workers</a>)</li>
+<li><code>hooks</code> — the location of your hooks module (see <a href="#hooks">Hooks</a>)</li>
+<li><code>template</code> — the location of the template for HTML responses</li>
+</ul>
+<h3 id="floc">floc</h3>
+<p>Google's <a href="https://github.com/WICG/floc">FLoC</a> is a technology for targeted advertising that the <a href="https://www.eff.org/">Electronic Frontier Foundation</a> has deemed <a href="https://www.eff.org/deeplinks/2021/03/googles-floc-terrible-idea">harmful</a> to user privacy. <a href="https://www.theverge.com/2021/4/16/22387492/google-floc-ad-tech-privacy-browsers-brave-vivaldi-edge-mozilla-chrome-safari">Browsers other than Chrome</a> have declined to implement it.</p>
+<p>In common with services like <a href="https://github.blog/changelog/2021-04-27-github-pages-permissions-policy-interest-cohort-header-added-to-all-pages-sites/">GitHub Pages</a>, SvelteKit protects your users by automatically opting out of FLoC. It adds the following header to responses unless <code>floc</code> is <code>true</code>:</p>
+<div class="remark-highlight"><pre class="language-unknown"><code class="language-unknown">Permissions-Policy: interest-cohort=()</code></pre></div>
+<blockquote>
+<p>This only applies to server-rendered responses —&nbsp;headers for prerendered pages (e.g. created with <a href="https://github.com/sveltejs/kit/tree/master/packages/adapter-static">adapter-static</a>) are determined by the hosting platform.</p>
+</blockquote>
+<h3 id="host">host</h3>
+<p>A value that overrides the <code>Host</code> header when populating <code>page.host</code></p>
+<h3 id="hostheader">hostHeader</h3>
+<p>If your app is behind a reverse proxy (think load balancers and CDNs) then the <code>Host</code> header will be incorrect. In most cases, the underlying host is exposed via the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host"><code>X-Forwarded-Host</code></a> header and you should specify this in your config if you need to access <code>page.host</code>:</p>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token comment">// svelte.config.js</span>
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+	kit<span class="token operator">:</span> <span class="token punctuation">{</span>
+		hostHeader<span class="token operator">:</span> <span class="token string">'X-Forwarded-Host'</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div>
+<p><strong>You should only do this if you trust the reverse proxy</strong>, which is why it isn't the default.</p>
+<h3 id="hydrate-1">hydrate</h3>
+<p>Whether to <a href="#ssr-and-javascript-hydrate">hydrate</a> the server-rendered HTML with a client-side app. (It's rare that you would set this to <code>false</code> on an app-wide basis.)</p>
+<h3 id="paths">paths</h3>
+<p>An object containing zero or more of the following <code>string</code> values:</p>
+<ul>
+<li><code>assets</code> — an absolute path, or a path relative to <code>base</code>, where your app's files are served from. This is useful if your files are served from a storage bucket of some kind</li>
+<li><code>base</code> — a root-relative path that must start, but not end with <code>/</code> (e.g. <code>/base-path</code>). This specifies where your app is served from and allows the app to live on a non-root path</li>
+</ul>
+<h3 id="prerender-1">prerender</h3>
+<p>See <a href="#ssr-and-javascript-prerender">Prerendering</a>. An object containing zero or more of the following:</p>
+<ul>
+<li><code>crawl</code> — determines whether SvelteKit should find pages to prerender by following links from the seed page(s)</li>
+<li><code>enabled</code> — set to <code>false</code> to disable prerendering altogether</li>
+<li><code>force</code> — if <code>true</code>, a page that fails to render will <em>not</em> cause the entire build to fail</li>
+<li><code>pages</code> — an array of pages to prerender, or start crawling from (if <code>crawl: true</code>). The <code>*</code> string includes all non-dynamic routes (i.e. pages with no <code>[parameters]</code> )</li>
+</ul>
+<h3 id="router-1">router</h3>
+<p>Enables or disables the client-side <a href="#ssr-and-javascript-router">router</a> app-wide.</p>
+<h3 id="ssr-1">ssr</h3>
+<p>Enables or disables <a href="#ssr-and-javascript-ssr">server-side rendering</a> app-wide.</p>
+<h3 id="target">target</h3>
+<p>Specifies an element to mount the app to. It must be a DOM selector that identifies an element that exists in your template file. If unspecified, the app will be mounted to <code>document.body</code>.</p>
+<h3 id="trailingslash">trailingSlash</h3>
+<p>Whether to remove, append, or ignore trailing slashes when resolving URLs to routes.</p>
+<ul>
+<li><code>"never"</code> — redirect <code>/x/</code> to <code>/x</code></li>
+<li><code>"always"</code> — redirect <code>/x</code> to <code>/x/</code></li>
+<li><code>"ignore"</code> — don't automatically add or remove trailing slashes. <code>/x</code> and <code>/x/</code> will be treated equivalently</li>
+</ul>
+<blockquote>
+<p>Ignoring trailing slashes is not recommended — the semantics of relative paths differ between the two cases (<code>./y</code> from <code>/x</code> is <code>/y</code>, but from <code>/x/</code> is <code>/x/y</code>), and <code>/x</code> and <code>/x/</code> are treated as separate URLs which is harmful to SEO. If you use this option, ensure that you implement logic for conditionally adding or removing trailing slashes from <code>request.path</code> inside your <a href="#hooks-handle"><code>handle</code></a> function.</p>
+</blockquote>
+<h3 id="vite">vite</h3>
+<p>A <a href="https://vitejs.dev/config">Vite config object</a>, or a function that returns one. Not all configuration options can be set, since SvelteKit depends on certain values being configured internally.</p>
+<h2 id="troubleshooting" data-dash-type="section" data-dash-name="Troubleshooting">Troubleshooting</h2>
+<h3 id="faq">FAQ</h3>
+<p>Please see the <a href="/faq">FAQ</a> for solutions to common issues and helpful tips and tricks.</p>
+<h3 id="support">Support</h3>
+<p>You can ask for help on <a href="https://svelte.dev/chat">Discord</a> and <a href="https://stackoverflow.com/questions/tagged/sveltekit">StackOverflow</a>. Please first search for information related to your issue in the FAQ, Google or another search engine, issue tracker, and Discord chat history in order to be respectful of others' time. There are many more people asking questions than answering them, so this will help in allowing the community to grow in a scalable fashion.</p>
+<h2 id="security" data-dash-type="section" data-dash-name="Security">Security</h2>
+<p>By default, SvelteKit does not add security headers to your app, but you may add them yourself using middleware such as <a href="https://helmetjs.github.io/">Helmet</a>.</p>
+<h3 id="content-security-policy-csp">Content Security Policy (CSP)</h3>
+<p><a href="https://github.com/sveltejs/kit/issues/93">SvelteKit does not yet support CSP.</a></p>
+<p>Sapper supported CSP by generating inline <code>&lt;script&gt;</code>s and <code>&lt;style&gt;</code>s, which can fail to execute if <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">Content Security Policy (CSP)</a> headers do not allow javascript or stylesheets sourced from inline resources.</p>
+<p>To work around this, Sapper can inject a <a href="https://www.troyhunt.com/locking-down-your-website-scripts-with-csp-hashes-nonces-and-report-uri/">nonce</a> which can be configured with middleware to emit the proper CSP headers. The nonce will be applied to the inline <code>&lt;script&gt;</code>s and <code>&lt;style&gt;</code>s. Here is an example using <a href="https://expressjs.com/">Express</a> and <a href="https://helmetjs.github.io/">Helmet</a>:</p>
+<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token comment">// server.js</span>
+<span class="token keyword module">import</span> <span class="token imports">uuidv4</span> <span class="token keyword module">from</span> <span class="token string">'uuid/v4'</span><span class="token punctuation">;</span>
+<span class="token keyword module">import</span> <span class="token imports">helmet</span> <span class="token keyword module">from</span> <span class="token string">'helmet'</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token method function property-access">use</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+	res<span class="token punctuation">.</span><span class="token property-access">locals</span><span class="token punctuation">.</span><span class="token property-access">nonce</span> <span class="token operator">=</span> <span class="token function">uuidv4</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span><span class="token method function property-access">use</span><span class="token punctuation">(</span><span class="token function">helmet</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	contentSecurityPolicy<span class="token operator">:</span> <span class="token punctuation">{</span>
+		directives<span class="token operator">:</span> <span class="token punctuation">{</span>
+			scriptSrc<span class="token operator">:</span> <span class="token punctuation">[</span>
+				<span class="token string">"'self'"</span><span class="token punctuation">,</span>
+				<span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">'nonce-</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>res<span class="token punctuation">.</span><span class="token property-access">locals</span><span class="token punctuation">.</span><span class="token property-access">nonce</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">'</span><span class="token template-punctuation string">`</span></span>
+			<span class="token punctuation">]</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span><span class="token method function property-access">use</span><span class="token punctuation">(</span>sapper<span class="token punctuation">.</span><span class="token method function property-access">middleware</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div>
+<p>Using <code>res.locals.nonce</code> in this way follows the convention set by
+<a href="https://helmetjs.github.io/docs/csp/#generating-nonces">Helmet's CSP docs</a>.</p>
+<p>If a CSP nonce is set via <code>res.locals.nonce</code>, you can refer to that value via tag <code>%sapper.cspnonce%</code> in <code>src/template.html</code>. For instance:</p>
+<div class="remark-highlight"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">nonce</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>%sapper.cspnonce%<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>...<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div>
+</body></html>
