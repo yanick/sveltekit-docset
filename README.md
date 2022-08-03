@@ -8,3 +8,5 @@ The feed for it is at
 
 You should be able to get at it by 
 feeding this url to Zeal: `dash-feed://https%3A%2F%2Fgithub.com%2Fyanick%2Fsveltekit-docset%2Freleases%2Fdownload%2Fv0.0.1%2Fsvelte-kit.tgz`
+
+For Dash, you have to provide the link to the [main xml file](https://raw.githubusercontent.com/yanick/sveltekit-docset/main/sveltekit.xml).
